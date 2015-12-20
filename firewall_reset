@@ -1,0 +1,19 @@
+#!/bin/bash
+
+IPTABLES=/sbin/iptables
+
+# Make sure only root can run our script
+if [ "$(id -u)" != "0" ]; then
+   echo "This script must be run as root" 1>&2
+   exit 1
+fi
+
+echo " * flushing old rules"
+${IPTABLES} --flush
+${IPTABLES} --delete-chain
+${IPTABLES} --table nat --flush
+${IPTABLES} --table nat --delete-chain
+
+echo "done"
+
+echo "Reset firewall at `date`" >> /tmp/firewall_reset.log

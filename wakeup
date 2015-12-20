@@ -1,0 +1,12 @@
+#!/bin/bash
+
+hilbert="00:1f:c6:c8:5c:aa"
+gauss="00:26:18:0a:fa:14"
+euler="00:11:2f:2a:d8:78"
+leibniz="44:87:fc:e2:b5:32"
+
+eval HWADDR=\$$1
+
+echo "Waking $1 at $HWADDR..."
+
+wakeonlan $HWADDR

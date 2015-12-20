@@ -1,0 +1,16 @@
+#!/usr/bin/python
+
+from BeautifulSoup import BeautifulSoup
+import sys
+
+if len(sys.argv) == 2:
+   file = sys.argv[1]
+   fh=open(file,'r')
+   soup = BeautifulSoup(fh)
+   fh.close()
+   formatted = soup.prettify()
+   fh=open(file,'w')
+   fh.write(formatted)
+   fh.close()
+else:
+   print("usage prettify filename")

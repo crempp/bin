@@ -1,0 +1,19 @@
+#!/bin/bash
+
+BLACKLIST=/etc/sec/blacklist.ips
+
+IPADR="$1"
+
+if [[ -z $IPADR ]]
+  then
+    echo "Please supply an IP address to block"
+    exit 1
+fi
+
+# if [[ $IPADR = "X.X.X.X" ]]
+#   then
+#     echo "Don't block yourself"
+#     exit 1
+# fi
+
+echo $IPADR >> $BLACKLIST

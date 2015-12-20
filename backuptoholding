@@ -1,0 +1,111 @@
+#!/bin/bash
+#
+# Backup files to holding directory
+# Version 1.0
+# crempp@gmail.com
+#
+# This script is written for backing local files to a holding directory
+# on an NFS share on the backup server. Once on the NFS share the
+# backup server will pick them up for the scheduled backup, removing them
+# when finished.
+#
+# This strategy prevents having to ssh or scp as root user using passwordless
+# keys like other remote backup strategies (rsnapshot remote methods)
+
+
+NOW=`date +%m%d%y`
+HOSTNAME=`hostname`
+
+# Configuration Variables
+HOLDING_BASE="/mnt/backup/holding"
+HOLDING_LOG_DIR="$HOLDING_BASE/log"
+HOST_HOLDING_DIR="$HOLDING_BASE/holding_$HOSTNAME"
+MINSPACE="10485760"
+
+# Backup directories
+BK_DIRS="/etc /home"
+
+#MAIL=yes
+#MAILADDR=crempp@gmail.com
+
+TEMPLOG="$HOLDING_LOG_DIR/${HOSTNAME}_temp.log"
+LOGFILE="$HOLDING_LOG_DIR/${HOSTNAME}_${NOW}.log"
+#BACKUPROOT="/srv/fileserver"
+#IGNOREDIRS="bk documents emu svn vm .o .Trash-1000"
+
+#==============================================================================
+# Do early checks
+#==============================================================================
+OK_TO_BACKUP=true
+if [ "`whoami`" != "root" ]
+  then
+    bklog "MUST BE ROOT: Aborting backup"
+    OK_TO_BACKUP=false
+    exit
+fi
+
+#==============================================================================
+# Helpers
+#==============================================================================
+# Logging function
+function bklog(){
+  echo $*
+  echo $* >> $TEMPLOG
+}
+
+#==============================================================================
+# Create files
+#==============================================================================
+# Create new logfile
+if [ -e "$LOGFILE" ]
+  then
+    rm -f $LOGFILE
+fi
+touch $LOGFILE
+
+#==============================================================================
+# Do pre-backup checks
+#==============================================================================
+OK_TO_BACKUP=true
+if [ "`whoami`" != "root" ]
+  then
+    bklog "MUST BE ROOT: Aborting backup"
+    OK_TO_BACKUP=false
+    exit
+fi
+
+#if [ "`mount -l | grep $HOLDING_BASE`" = "" ]
+#  then
+#    bklog "BACKUP DRIVE NOT MOUNTED: Aborting backup"
+#    OKTOBACKUP=false
+#fi
+
+#if [ "`df $HOLDING_BASE | grep $BACKUPDIR | awk '{print $4}'`" -lt $MINSPACE ]
+#  then
+#    bklog "INSUFFICIENT SPACE: Aborting backup"
+#    OKTOBACKUP=false
+#fi
+
+
+if [ "$OK_TO_BACKUP" = "true" ]
+  then
+    bklog "+-----------------------------------------------------------+"
+    bklog " Begining holding backup at `date`"
+    bklog "+-----------------------------------------------------------+"
+
+    for DIR in $BK_DIRS
+      do
+        echo $DIR
+        # Create this directory if it's missing
+        if [ ! -e "${HOST_HOLDING_DIR}${DIR}" ]
+          then
+            bklog "Creating ${HOST_HOLDING_DIR}${DIR}"
+            mkdir -p ${HOST_HOLDING_DIR}${DIR}
+        fi
+
+        # Backup
+        bklog "Backing $DIR up to ${HOST_HOLDING_DIR}${DIR}"
+        rsync -ah --delete $DIR $HOST_HOLDING_DIR
+    done
+  bklog "Holding Files backed up OK at `date`"
+fi

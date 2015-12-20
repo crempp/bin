@@ -1,0 +1,13 @@
+#!/bin/bash
+
+PROJECT_DIR="$HOME/projects"
+
+for project_dir in $(ls $PROJECT_DIR)
+  do
+    cd "$PROJECT_DIR/$project_dir"
+    echo "Working on project '$project_dir'"
+    for branch in $(git branch)
+      do
+        echo "  ~> Updating branch [$branch]"
+    done
+done

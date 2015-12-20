@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Make sure only root can run our script
+if [ "$(id -u)" != "0" ]; then
+   echo "This script must be run as root" 1>&2
+   exit 1
+fi
+
+at now + 2 minutes -m -f $HOME/bin/firewall_reset
+echo "The firewall rules will reset in 2 minutes to be completely open"
