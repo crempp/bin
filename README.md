@@ -34,8 +34,50 @@ Here is my collection of scripts and bash_profile I use. This is intended for my
 
 ## Command and Alias Reference
 
+**..** - Aliased version of the `cd` command to traverse up one level.    
+`cd ../`
+
+**...** - Aliased version of the `cd` command to traverse up two levels.    
+`cd ../../`
+
+**.3** - Aliased version of the `cd` command to traverse up three levels.    
+`cd ../../../`
+
+**.4** - Aliased version of the `cd` command to traverse up four levels.    
+`cd ../../../../`
+
+**.5** - Aliased version of the `cd` command to traverse up five levels.    
+`cd ../../../../../`
+
+**.6** - Aliased version of the `cd` command to traverse up six levels.    
+`cd ../../../../../../`
+
+**~** - Change to home directory.  
+`cd ~`
+
+**c** - Clear terminal display.  
+`clear`
+
+**cd** - Wrapper for the `cd` command to always list directory contents upon directory change.  
+`cd() { builtin cd "$@"; ll; }`
+
+**cd..** - Aliased version of the `cd` command to traverse up one level.    
+`cd ../`
+
+**cic** - Make tab-completion case-insensitive.  
+`set completion-ignore-case On`
+
 **cp** - Aliased version of the `cp` command to write a prompt to the standard error output before copying a file that would overwrite an existing file and be verbose  
 `cp -iv`
+
+**DT** - Pipe content to file on MacOS Desktop.  
+`tee ~/Desktop/terminalOut.txt`
+
+**f** - Opens current directory in MacOS Finder.  
+`open -a Finder ./`
+
+**fix_stty** - Restore terminal settings when screwed up.  
+`stty sane`
 
 **less** - Aliased version of the `less` command to
 * Exit immediately if the file cannot be displayed
@@ -46,12 +88,6 @@ Here is my collection of scripts and bash_profile I use. This is intended for my
 
 `less -FSRXc`
 
-**mv** - Aliased version of the `mv` command to write a prompt to the standard error output before copying a file that would overwrite an existing file and be verbose.  
-`mv -iv`
-
-**mkdir** - Aliased version of the `mkdir` command to create intermediate directories as required and be verbose.  
-`mkdir -pv`
-
 **ll** - Aliased version of the `ls` command to
 * Display a slash ('/') immediately after each pathname that is a directory, an asterisk ('*') after each that is executable, an at sign ('@') after each symbolic link, an equals sign ('=') after each socket, a percent sign ('%') after each whiteout, and a vertical bar ('|') after each that is a FIFO
 * Enable colorized output.
@@ -61,6 +97,33 @@ Here is my collection of scripts and bash_profile I use. This is intended for my
 * Write a slash (`/') after each filename if that file is a directory
 
 `ls -FGlAhp`
+
+**mcd** - Makes new Dir and jumps inside.  
+`mcd () { mkdir -p "$1" && cd "$1"; }`
+
+**mv** - Aliased version of the `mv` command to write a prompt to the standard error output before copying a file that would overwrite an existing file and be verbose.  
+`mv -iv`
+
+**mkdir** - Aliased version of the `mkdir` command to create intermediate directories as required and be verbose.  
+`mkdir -pv`
+
+**path** - Echo all executable Paths.    
+`echo -e ${PATH//:/\\n}`
+
+**ql** - Opens any file in MacOS Quicklook Preview.  
+`ql () { qlmanage -p "$*" >& /dev/null; }`
+
+**show_options** - Display bash options settings.  
+`shopt`
+
+**top** - Aliased version of the `top` command to show more useful columns and order by cpu usage.  
+`top -r -o cpu -stats pid,ppid,command,cpu,mem,vsize,vprvt,kprvt,kshrd,purg,time,threads,state`
+
+**trash** - Moves a file to the MacOS trash.  
+`trash () { command mv "$@" ~/.Trash ; }`
+
+**which** - An aliased version of `which` to use the `type` command.  
+`type -all`
 
 ## License
 **ISC License (ISC)**  

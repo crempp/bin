@@ -97,7 +97,7 @@
       else
         echo "ERROR: virtualenvwrapper not installed"
     fi
-    
+
 
 #   -----------------------------
 #   2.  MAKE TERMINAL BETTER
@@ -117,7 +117,7 @@
     alias .4='cd ../../../../'                  # Go back 4 directory levels
     alias .5='cd ../../../../../'               # Go back 5 directory levels
     alias .6='cd ../../../../../../'            # Go back 6 directory levels
-    alias edit='brackets'                       # edit:         Opens any file in brackets editor
+    #alias edit='brackets'                       # edit:         Opens any file in brackets editor
     alias f='open -a Finder ./'                 # f:            Opens current directory in MacOS Finder
     alias ~="cd ~"                              # ~:            Go Home
     alias c='clear'                             # c:            Clear terminal display
