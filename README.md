@@ -1,4 +1,4 @@
-# Chad Rempp's bin
+# My bin directory (for Mac)
 Here is my collection of scripts and bash_profile I use. This is intended for my own personal use but I attempted to make everything generic and reusable where possible. Please feel free to use and modify it for your own purposes.
 
 ## Bash Setup
@@ -33,6 +33,8 @@ Here is my collection of scripts and bash_profile I use. This is intended for my
     └── ...                         # All the other scripts
 
 ## Command and Alias Reference
+
+### Terminal Enhancements
 
 **..** - Aliased version of the `cd` command to traverse up one level.    
 `cd ../`
@@ -98,6 +100,12 @@ Here is my collection of scripts and bash_profile I use. This is intended for my
 
 `ls -FGlAhp`
 
+**lr** - Full recursive directory listing.  
+`ls -R | grep ":$" | sed -e '\''s/:$//'\'' -e '\''s/[^-][^\/]*\//--/g'\'' -e '\''s/^/   /'\'' -e '\''s/-/|/'\'' | less`
+
+**mans** - Search manpage given in agument '1' for term given in argument '2' (case insensitive) displays paginated result with colored search terms and two lines surrounding each hit.  
+*Example:* `mans mplayer codec`
+
 **mcd** - Makes new Dir and jumps inside.  
 `mcd () { mkdir -p "$1" && cd "$1"; }`
 
@@ -113,6 +121,9 @@ Here is my collection of scripts and bash_profile I use. This is intended for my
 **ql** - Opens any file in MacOS Quicklook Preview.  
 `ql () { qlmanage -p "$*" >& /dev/null; }`
 
+**showa** - Remind yourself of an alias (given some part of it)
+*Doesn't seem to be working*
+
 **show_options** - Display bash options settings.  
 `shopt`
 
@@ -124,6 +135,99 @@ Here is my collection of scripts and bash_profile I use. This is intended for my
 
 **which** - An aliased version of `which` to use the `type` command.  
 `type -all`
+
+### File and Folder Management
+
+**cdf** - Cd's to frontmost window of MacOS Finder.
+
+**extract** - Extract most known archives with one command.
+
+**make1mb** - Creates a file of 1mb size (all zeros).  
+`mkfile 1m ./1MB.dat`
+
+**make5mb** - Creates a file of 5mb size (all zeros).  
+`mkfile 5m ./5MB.dat`
+
+**make10mb** - Creates a file of 10mb size (all zeros).  
+`mkfile 10m ./10MB.dat`
+
+**numFiles** - Count of non-hidden files in current dir.  
+`echo $(ls -1 | wc -l)`
+
+**zipf** - Create a ZIP archive of a folder.  
+`zipf () { zip -r "$1".zip "$1" ; }`
+
+### Searching
+
+**ff** - Find file under the current directory.  
+`ff () { /usr/bin/find . -name "$@" ; }`
+
+**ffe** - Find file whose name ends with a given string.  
+`ffe () { /usr/bin/find . -name '*'"$@" ; }`
+
+ **ffs** - Find file whose name starts with a given string.  
+`ffs () { /usr/bin/find . -name "$@"'*' ; }`
+
+**qfind** - Quickly search for file.  
+`find . -name`
+
+**spotlight** - Search for a file using MacOS Spotlight's metadata.
+
+### Process Management
+
+**cpu_hogs** - Find CPU hogs.    
+`ps wwaxr -o pid,stat,%cpu,time,command | head -10`
+
+**findPid** - Find the pid of a specified process.  
+*Note:* The command name can be specified via a regex. E.g. `findPid '/d$/'` finds pids of all processes with names ending in 'd'. Without the 'sudo' it will only find processes of the current user
+
+**memHogsPs** - Find memory hogs.  
+`ps wwaxm -o pid,stat,vsize,rss,time,command | head -10`
+
+**memHogsTop** - Find memory hogs.  
+`top -l 1 -o rsize | head -20`
+
+**my_ps** - List processes owned by my user.
+
+**topForever** - Continual 'top' listing (every 10 seconds).    
+`top -l 9999999 -s 10 -o cpu`
+
+**ttop** - Recommended 'top' invocation to minimize resources. Taken from this macosxhints article http://www.macosxhints.com/article.php?story=20060816123853639  
+`top -R -F -s 10 -o rsize`
+
+### Networking
+
+**flushDNS** - Flush out the DNS Cache.  
+`dscacheutil -flushcache`
+
+**ii** - Display useful host related informaton
+
+ **ipInfo0** - Get info on connections for en0.  
+`ipconfig getpacket en0`
+
+ **ipInfo1** - Get info on connections for en1.  
+`ipconfig getpacket en1`
+
+**lsock** - Display open sockets.  
+`sudo /usr/sbin/lsof -i -P`
+
+**lsockU** - Display only open UDP sockets.  
+`sudo /usr/sbin/lsof -nP | grep UDP`
+
+**lsockT** - Display only open TCP sockets.  
+`sudo /usr/sbin/lsof -nP | grep TCP`
+
+**myip** - Get public facing IP Address.  
+`curl ip.appspot.com`
+
+**netCons** - Show all open TCP/IP sockets.  
+`lsof -i`
+
+ **openPorts** - All listening connections.  
+`sudo lsof -i | grep LISTEN`
+
+**showBlocked** - All ipfw rules inc/ blocked IPs.  
+`sudo ipfw list`
 
 ## License
 **ISC License (ISC)**  

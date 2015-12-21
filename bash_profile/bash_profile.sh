@@ -137,7 +137,8 @@
     alias lr='ls -R | grep ":$" | sed -e '\''s/:$//'\'' -e '\''s/[^-][^\/]*\//--/g'\'' -e '\''s/^/   /'\'' -e '\''s/-/|/'\'' | less'
 
 #   mans:   Search manpage given in agument '1' for term given in argument '2' (case insensitive)
-#           displays paginated result with colored search terms and two lines surrounding each hit.             Example: mans mplayer codec
+#           displays paginated result with colored search terms and two lines surrounding each hit.
+#   Example: mans mplayer codec
 #   --------------------------------------------------------------------
     mans () {
         man $1 | grep -iC2 --color=always $2 | less
@@ -176,7 +177,7 @@ EOT
         cd "$currFolderPath"
     }
 
-#   extract:  Extract most know archives with one command
+#   extract:  Extract most known archives with one command
 #   ---------------------------------------------------------
     extract () {
         if [ -f $1 ] ; then
