@@ -127,9 +127,6 @@ Here is my collection of scripts and bash_profile I use. This is intended for my
 **show_options** - Display bash options settings.  
 `shopt`
 
-**top** - Aliased version of the `top` command to show more useful columns and order by cpu usage.  
-`top -r -o cpu -stats pid,ppid,command,cpu,mem,vsize,vprvt,kprvt,kshrd,purg,time,threads,state`
-
 **trash** - Moves a file to the MacOS trash.  
 `trash () { command mv "$@" ~/.Trash ; }`
 
@@ -192,7 +189,10 @@ Here is my collection of scripts and bash_profile I use. This is intended for my
 **topForever** - Continual 'top' listing (every 10 seconds).    
 `top -l 9999999 -s 10 -o cpu`
 
-**ttop** - Recommended 'top' invocation to minimize resources. Taken from this macosxhints article http://www.macosxhints.com/article.php?story=20060816123853639  
+**top** - Aliased version of the `top` command to show more useful columns and order by cpu usage.  
+`top -R -F -r -o cpu -stats pid,ppid,command,cpu,mem,vsize,vprvt,kprvt,kshrd,purg,time,threads,state`
+
+**ttop** - Recommended 'top' invocation to minimize resources. Taken from this macosxhints article http://hints.macworld.com/article.php?story=20060816123853639  
 `top -R -F -s 10 -o rsize`
 
 ### Networking

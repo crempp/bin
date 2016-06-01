@@ -108,8 +108,7 @@
     alias mkdir='mkdir -pv'                     # Preferred 'mkdir' implementation
     alias ll='ls -FGlAhp'                       # Preferred 'ls' implementation
     alias less='less -FSRXc'                    # Preferred 'less' implementation
-    alias top='top -r -o cpu -stats pid,ppid,command,cpu,mem,vsize,vprvt,kprvt,kshrd,purg,time,threads,state'
-    cd() { builtin cd "$@"; ll; }               # Always list directory contents upon 'cd'
+    #cd() { builtin cd "$@"; ll; }               # Always list directory contents upon 'cd'
     alias cd..='cd ../'                         # Go back 1 directory level (for fast typers)
     alias ..='cd ../'                           # Go back 1 directory level
     alias ...='cd ../../'                       # Go back 2 directory levels
@@ -240,10 +239,14 @@ EOT
 #   -----------------------------------------------------
     alias topForever='top -l 9999999 -s 10 -o cpu'
 
+#   top:  Show more useful columns and order by cpu usage.
+#   -----------------------------------------------------
+    alias top='top -R -F -r -o cpu -stats pid,ppid,command,cpu,mem,vsize,vprvt,kprvt,kshrd,purg,time,threads,state'
+
 #   ttop:  Recommended 'top' invocation to minimize resources
 #   ------------------------------------------------------------
 #       Taken from this macosxhints article
-#       http://www.macosxhints.com/article.php?story=20060816123853639
+#       http://hints.macworld.com/article.php?story=20060816123853639
 #   ------------------------------------------------------------
     alias ttop="top -R -F -s 10 -o rsize"
 
