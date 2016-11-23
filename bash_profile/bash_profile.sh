@@ -32,7 +32,7 @@
 #   Set Paths
 #   ------------------------------------------------------------
     # Make sure brews are used before others
-    export PATH="/usr/local/bin/:/usr/local/sbin:$PATH"
+    export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
     # Add home bin to path
     export PATH="$HOME/bin:$HOME/bin/local:$PATH"
 
@@ -62,42 +62,9 @@
 #   export CLICOLOR=1
 #   export LSCOLORS=ExFxBxDxCxegedabagacad
 
-#   Bash-completion
-#   https://github.com/bobthecow/git-flow-completion/wiki/Install-Bash-git-completion
-#   ------------------------------------------------------------
-    if [ -f `brew --prefix`/etc/bash_completion ]
-      then
-        . `brew --prefix`/etc/bash_completion
-      else
-        echo "ERROR: BASH Completion not installed"
-    fi
-
-#   Anaconda
-#   added by Anaconda 2.1.0 installer
-#   ------------------------------------------------------------
-    # export PATH="/Users/crempp/anaconda/bin:$PATH"
-
-#   RVM
-#   Load RVM into a shell session *as a function*
-#   ------------------------------------------------------------
-    if [ -d $HOME/.rvm ]
-      then
-        export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
-        [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
-      else
-        echo "ERROR: RVM not installed"
-    fi
-
-#   Setup virtualenv
-#   ------------------------------------------------------------
-    if [ -f /usr/local/bin/virtualenvwrapper.sh ]
-      then
-        export WORKON_HOME=~/.virtualenvs
-        source /usr/local/bin/virtualenvwrapper.sh
-      else
-        echo "ERROR: virtualenvwrapper not installed"
-    fi
-
+source $HOME/bin/bash_profile/includes/bash-completion.sh
+source $HOME/bin/bash_profile/includes/rvm.sh
+source $HOME/bin/bash_profile/includes/virtualenvs.sh
 
 #   -----------------------------
 #   2.  MAKE TERMINAL BETTER
@@ -254,7 +221,6 @@ EOT
 #   ------------------------------------------------------------
     my_ps() { ps $@ -u $USER -o pid,%cpu,%mem,start,time,bsdtime,command ; }
 
-
 #   ---------------------------
 #   6.  NETWORKING
 #   ---------------------------
@@ -269,6 +235,7 @@ EOT
     alias ipInfo1='ipconfig getpacket en1'              # ipInfo1:      Get info on connections for en1
     alias openPorts='sudo lsof -i | grep LISTEN'        # openPorts:    All listening connections
     alias showBlocked='sudo ipfw list'                  # showBlocked:  All ipfw rules inc/ blocked IPs
+
 
 #   ii:  display useful host related informaton
 #   -------------------------------------------------------------------
@@ -335,16 +302,14 @@ EOT
     alias apacheRestart='sudo apachectl graceful'           # apacheRestart:    Restart Apache
     alias editHosts='sudo edit /etc/hosts'                  # editHosts:        Edit /etc/hosts file
     alias herr='tail /var/log/httpd/error_log'              # herr:             Tails HTTP error logs
-    alias apacheLogs="less +F /var/log/apache2/error_log"   # Apachelogs:   Shows apache error logs
+    alias apacheLogs="less +F /var/log/apache2/error_log"   # Apachelogs:       Shows apache error logs
     httpHeaders () { /usr/bin/curl -I -L $@ ; }             # httpHeaders:      Grabs headers from web page
+    # TODO: This alias needs escaped properly
+    # alias d="eval $(docker-machine env default)"
 
 #   httpDebug:  Download a web page and show info on what took time
 #   -------------------------------------------------------------------
     httpDebug () { /usr/bin/curl $@ -o /dev/null -w "dns: %{time_namelookup} connect: %{time_connect} pretransfer: %{time_pretransfer} starttransfer: %{time_starttransfer} total: %{time_total}\n" ; }
-
-#   Python development
-#   -------------------------------------------------------------------
-    alias t='nosetests --processes=8 tests/'
 
 
 #   ---------------------------------------
